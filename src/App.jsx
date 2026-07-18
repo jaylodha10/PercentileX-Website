@@ -341,8 +341,8 @@ export default function Home() {
                 <p>The wait is over. Download the official PercentileX Android app today and begin your journey to the 100th percentile.</p>
                 
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '32px 0' }}>
-                  <a href="#" className="btn-primary" style={{ padding: '16px 36px', fontSize: '1.15rem', borderRadius: '50px' }}>
-                    ⬇ Download APK
+                  <a href="https://play.google.com/store/apps/details?id=com.percentilex.percentile_x" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: '16px 36px', fontSize: '1.15rem', borderRadius: '50px' }}>
+                    ⬇ Get it on Google Play
                   </a>
                 </div>
 
