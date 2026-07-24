@@ -24,6 +24,34 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [trackerMinimized, setTrackerMinimized] = useState(false);
 
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
+  const handleNavClick = (e, targetId) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    document.body.style.overflow = '';
+    
+    const el = document.getElementById(targetId);
+    if (el) {
+      const headerOffset = 90;
+      const elementPosition = el.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   /* ── Waitlist ── */
   const [email, setEmail] = useState('');
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -146,12 +174,12 @@ export default function Home() {
             <span>PercentileX</span>
           </Link>
           <nav className="nav-links desktop-only">
-            <a href="#features">Features</a>
-            <a href="#preview">App Preview</a>
-            <a href="#calculator">Percentile Predictor</a>
-            <a href="#security">Security</a>
+            <a href="#features" onClick={(e) => handleNavClick(e, 'features')}>Features</a>
+            <a href="#preview" onClick={(e) => handleNavClick(e, 'preview')}>App Preview</a>
+            <a href="#calculator" onClick={(e) => handleNavClick(e, 'calculator')}>Percentile Predictor</a>
+            <a href="#security" onClick={(e) => handleNavClick(e, 'security')}>Security</a>
           </nav>
-          <a href="#download" className="btn-waitlist desktop-only">Download App</a>
+          <a href="#download" className="btn-waitlist desktop-only" onClick={(e) => handleNavClick(e, 'download')}>Download App</a>
 
           <button
             className={`hamburger-btn ${mobileMenuOpen ? 'active' : ''}`}
@@ -177,13 +205,13 @@ export default function Home() {
               <span>PercentileX</span>
             </Link>
             <nav className="mobile-nav-links">
-              <a href="#features" onClick={() => setMobileMenuOpen(false)}>Features</a>
-              <a href="#preview" onClick={() => setMobileMenuOpen(false)}>App Preview</a>
-              <a href="#calculator" onClick={() => setMobileMenuOpen(false)}>Percentile Predictor</a>
-              <a href="#security" onClick={() => setMobileMenuOpen(false)}>Security</a>
+              <a href="#features" onClick={(e) => handleNavClick(e, 'features')}>Features</a>
+              <a href="#preview" onClick={(e) => handleNavClick(e, 'preview')}>App Preview</a>
+              <a href="#calculator" onClick={(e) => handleNavClick(e, 'calculator')}>Percentile Predictor</a>
+              <a href="#security" onClick={(e) => handleNavClick(e, 'security')}>Security</a>
             </nav>
           </div>
-          <a href="#download" className="btn-waitlist mobile-btn" onClick={() => setMobileMenuOpen(false)}>
+          <a href="#download" className="btn-waitlist mobile-btn" onClick={(e) => handleNavClick(e, 'download')}>
             Download App
           </a>
         </div>
@@ -386,8 +414,22 @@ export default function Home() {
                 <p>The wait is over. Download the official PercentileX Android app today and begin your journey to the 100th percentile.</p>
                 
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '32px 0' }}>
-                  <a href="https://play.google.com/store/apps/details?id=com.percentilex.percentile_x" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: '16px 36px', fontSize: '1.15rem', borderRadius: '50px' }}>
-                    ⬇ Get it on Google Play
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.percentilex.percentile_x"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-google-play"
+                  >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M3.60938 1.81445C3.39844 2.02539 3.28125 2.35352 3.28125 2.77539V21.2246C3.28125 21.6465 3.39844 21.9746 3.60938 22.1855L3.67969 22.2539L13.9844 11.9492V11.8789L3.67969 1.54688L3.60938 1.81445Z" fill="#00A0FF"/>
+                      <path d="M17.4141 15.3789L13.9844 11.9492V11.8789L17.4141 8.44922L17.4844 8.49609L21.5469 10.8047C22.707 11.4609 22.707 12.5391 21.5469 13.1953L17.4844 15.332L17.4141 15.3789Z" fill="#FFD000"/>
+                      <path d="M17.4844 15.332L13.9844 11.9141L3.60938 22.1855C3.98438 22.584 4.61719 22.6309 5.34375 22.2207L17.4844 15.332Z" fill="#FF3A44"/>
+                      <path d="M17.4844 8.49609L5.34375 1.60547C4.61719 1.19531 3.98438 1.24219 3.60938 1.64062L13.9844 11.9141L17.4844 8.49609Z" fill="#00E676"/>
+                    </svg>
+                    <div className="btn-play-text">
+                      <span className="btn-play-sub">GET IT ON</span>
+                      <span className="btn-play-main">Google Play</span>
+                    </div>
                   </a>
                 </div>
 
