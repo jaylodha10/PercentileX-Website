@@ -16,6 +16,7 @@ export default function AppCarousel() {
   const [current, setCurrent] = useState(0);
   const [animating, setAnimating] = useState(false);
   const timerRef = useRef(null);
+  const touchStartX = useRef(0);
 
   const goTo = (idx) => {
     if (animating || idx === current) return;
@@ -34,8 +35,28 @@ export default function AppCarousel() {
     return () => clearInterval(timerRef.current);
   }, [current]);
 
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX.current - touchEndX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        next();
+      } else {
+        prev();
+      }
+    }
+  };
+
   return (
-    <div className="carousel-root">
+    <div
+      className="carousel-root"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       {/* Side phones for context */}
       <div className={`carousel-side left ${animating ? 'fade-out' : 'fade-in'}`}>
         <div className="iphone-mockup small">

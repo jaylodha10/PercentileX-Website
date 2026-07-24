@@ -140,8 +140,40 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 968px) {
   .carousel-side { display: none; }
-  .carousel-arrow.left-arrow  { left: -8px; }
-  .carousel-arrow.right-arrow { right: -8px; }
+}
+
+@media (max-width: 640px) {
+  .carousel-root { padding: 20px 0 60px 0; }
+  .iphone-mockup.main {
+    width: 250px;
+    height: 500px;
+    border-radius: 38px;
+    box-shadow:
+      0 0 0 10px #1f2937,
+      0 0 0 11px #374151,
+      0 20px 50px rgba(79, 70, 229, 0.25),
+      0 10px 30px rgba(0, 0, 0, 0.8);
+  }
+  .iphone-mockup.main::after { border-radius: 34px; }
+  .carousel-arrow {
+    width: 38px;
+    height: 38px;
+    font-size: 1.5rem;
+  }
+  .carousel-arrow.left-arrow  { left: 4px; }
+  .carousel-arrow.right-arrow { right: 4px; }
+}
+
+@media (max-width: 380px) {
+  .iphone-mockup.main {
+    width: 220px;
+    height: 440px;
+    border-radius: 32px;
+  }
+  .iphone-mockup.main .screen-notch {
+    width: 85px;
+    height: 20px;
+  }
 }

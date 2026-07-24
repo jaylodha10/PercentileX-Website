@@ -20,6 +20,10 @@ function Reveal({ children, delay = 0, className = '' }) {
 }
 
 export default function Home() {
+  /* ── Mobile Nav ── */
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [trackerMinimized, setTrackerMinimized] = useState(false);
+
   /* ── Waitlist ── */
   const [email, setEmail] = useState('');
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -137,17 +141,51 @@ export default function Home() {
       {/* ── Floating Navigation ── */}
       <header className="header-nav">
         <div className="nav-container">
-          <Link to="/" className="brand-logo">
+          <Link to="/" className="brand-logo" onClick={() => setMobileMenuOpen(false)}>
             <img src="/assets/app_logo.png" alt="PercentileX" />
             <span>PercentileX</span>
           </Link>
-          <nav className="nav-links">
+          <nav className="nav-links desktop-only">
             <a href="#features">Features</a>
             <a href="#preview">App Preview</a>
             <a href="#calculator">Percentile Predictor</a>
             <a href="#security">Security</a>
           </nav>
-          <a href="#download" className="btn-waitlist">Download App</a>
+          <a href="#download" className="btn-waitlist desktop-only">Download App</a>
+
+          <button
+            className={`hamburger-btn ${mobileMenuOpen ? 'active' : ''}`}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            <span className="hamburger-line"></span>
+            <span className="hamburger-line"></span>
+            <span className="hamburger-line"></span>
+          </button>
+        </div>
+
+        {/* Mobile Navigation Drawer */}
+        <div
+          className={`mobile-nav-overlay ${mobileMenuOpen ? 'open' : ''}`}
+          onClick={() => setMobileMenuOpen(false)}
+        />
+        <div className={`mobile-nav-drawer ${mobileMenuOpen ? 'open' : ''}`}>
+          <div>
+            <Link to="/" className="brand-logo mobile-brand" onClick={() => setMobileMenuOpen(false)}>
+              <img src="/assets/app_logo.png" alt="PercentileX" />
+              <span>PercentileX</span>
+            </Link>
+            <nav className="mobile-nav-links">
+              <a href="#features" onClick={() => setMobileMenuOpen(false)}>Features</a>
+              <a href="#preview" onClick={() => setMobileMenuOpen(false)}>App Preview</a>
+              <a href="#calculator" onClick={() => setMobileMenuOpen(false)}>Percentile Predictor</a>
+              <a href="#security" onClick={() => setMobileMenuOpen(false)}>Security</a>
+            </nav>
+          </div>
+          <a href="#download" className="btn-waitlist mobile-btn" onClick={() => setMobileMenuOpen(false)}>
+            Download App
+          </a>
         </div>
       </header>
 
@@ -331,6 +369,13 @@ export default function Home() {
           <div className="container">
             <Reveal>
               <div className="waitlist-box">
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
+                  <img
+                    src="/assets/app_logo.png"
+                    alt="PercentileX App Logo"
+                    style={{ width: '64px', height: '64px', borderRadius: '16px', boxShadow: '0 8px 24px rgba(79,70,229,0.35)' }}
+                  />
+                </div>
                 <div className="avatar-stack">
                   <span className="user-avatar">🚀</span>
                   <span className="user-avatar">🔥</span>
@@ -420,14 +465,23 @@ export default function Home() {
       </footer>
 
       {/* ── Scroll progress widget ── */}
-      <div className="scroll-tracker-widget" ref={widgetRef}>
-        <div className="tracker-val" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          PAGE PROGRESS: <span>{Math.round(scrollM)}%</span>
-          <div style={{ width: '80px', height: '6px', background: 'rgba(255,255,255,0.2)', borderRadius: '3px', overflow: 'hidden' }}>
-            <div style={{ width: `${scrollM}%`, height: '100%', background: '#06b6d4', transition: 'width 0.2s ease-out' }} />
+      <div className={`scroll-tracker-widget ${trackerMinimized ? 'minimized' : ''}`} ref={widgetRef}>
+        <div className="tracker-header">
+          <div className="tracker-val">
+            PROGRESS: <span>{Math.round(scrollM)}%</span>
+            <div className="tracker-bar-bg">
+              <div className="tracker-bar-fill" style={{ width: `${scrollM}%` }} />
+            </div>
           </div>
+          <button
+            className="tracker-toggle-btn"
+            onClick={() => setTrackerMinimized(!trackerMinimized)}
+            aria-label={trackerMinimized ? "Expand progress tracker" : "Minimize progress tracker"}
+          >
+            {trackerMinimized ? '▲' : '▼'}
+          </button>
         </div>
-        <div className="tracker-desc">{ach}</div>
+        {!trackerMinimized && <div className="tracker-desc">{ach}</div>}
       </div>
     </>
   );
